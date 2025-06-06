@@ -33,10 +33,10 @@ const Navbar = () => {
 
                 <div onClick={()=>navigate("/cart")} className="relative cursor-pointer">
                    <img src={assets.nav_cart_icon} alt='cart' className='w-6 opacity-80'/>
-                    <button className="absolute -top-2 -right-3 text-xs text-white bg-indigo-500 w-[18px] h-[18px] rounded-full">3</button>
+                    <button className="absolute -top-2 -right-3 text-xs text-white bg-green-800 w-[18px] h-[18px] rounded-full">3</button>
                 </div>
 
-                {!user ? (<button onClick={()=>setShowUserLogin(true)} className="cursor-pointer px-8 py-2 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full">
+                {!user ? (<button onClick={()=>setShowUserLogin(true)} className="cursor-pointer px-8 py-2 bg-green-800 hover:bg-green-700 transition text-white rounded-full">
                     Login
                 </button>):
                 (<div className='relative group'>
@@ -66,13 +66,13 @@ const Navbar = () => {
               {!user? (
                  <button onClick={()=>{setOpen(false);
                     setShowUserLogin(true)
-                 }} className="cursor-pointer px-6 py-2 mt-2 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full text-sm">
+                 }} className="cursor-pointer px-6 py-2 mt-2 bg-green-800 hover:bg-green-700 transition text-white rounded-full text-sm">
                     Login
                 </button>
               ):(
                  <button
                  onClick={logout}
-                 className="cursor-pointer px-6 py-2 mt-2 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full text-sm">
+                 className="cursor-pointer px-6 py-2 mt-2 bg-green-800 hover:bg-green-700 transition text-white rounded-full text-sm">
                     Logout
                 </button>
               ) }
