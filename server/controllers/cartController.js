@@ -1,5 +1,5 @@
 
-import User from "../models/User";
+import User from "../models/User.js";
 
 // update User CartData
 export const updateCart = async(req,res)=>{
