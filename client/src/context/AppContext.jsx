@@ -6,7 +6,7 @@ import axios from 'axios';
 
 axios.defaults.withCredentials = true;
 
-axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL
+axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
 
 export const AppContext = createContext();
 
@@ -39,9 +39,33 @@ const fetchSeller = async()=>{
   }
 }
 
+// fetch user auth status. userdata and cart items
 
+const fetchUser = async()=>{
+  try {
+    const {data} = await axios.get('/api/user/is-auth')
+    if(data.success){
+      setUser(data.user)
+      setCartItems(data.user.cartItems)
+    }
+  } catch (error) {
+    setUser(null)
+  }
+}
+
+  // fetch all products
   const fetchProducts = async ()=>{
-    setProducts(dummyProducts)
+   try {
+    const {data} = await axios.get('/api/product/list')
+    if(data.success){
+      setProducts(data.products)
+    } else{
+      toast.error(data.message)
+    }
+   } catch (error) {
+      toast.error(error.message)
+    
+   }
   }
 
   // add product to cart
@@ -106,12 +130,13 @@ const getCartAmount = () =>{
 }
 
   useEffect(()=>{
-    fetchSeller(),
+    fetchUser()
+    fetchSeller()
     fetchProducts()
   },[])
 
     const value = {
-        navigate, user, setUser,isSeller,setIsSeller,showUserLogin,setShowUserLogin, products,currency, addToCart, updateCartItem,removeFromCart,cartItems, searchQuery,setSearchQuery,getCartAmount,getCartCount, axios
+        navigate, user, setUser,isSeller,setIsSeller,showUserLogin,setShowUserLogin, products,currency, addToCart, updateCartItem,removeFromCart,cartItems, searchQuery,setSearchQuery,getCartAmount,getCartCount, axios,fetchProducts
     }
 
     return <AppContext.Provider value={value}>
