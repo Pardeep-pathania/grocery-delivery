@@ -10,7 +10,7 @@ const authSeller = async(req,res, next) => {
     try {
         const verifyToken = jwt.verify(sellerToken, process.env.JWT_SECRET)
         if(verifyToken.email === process.env.SELLER_EMAIL){
-            req.body.userId = verifyToken.id
+            req.seller = {email: verifyToken.email}
         } else{
             return res.status(400).json({success:false, message:"Not authorised"})
         }

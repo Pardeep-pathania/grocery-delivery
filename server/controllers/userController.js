@@ -22,8 +22,8 @@ export const register = async(req,res)=>{
 
         res.cookie('token', token, {
             httpOnly:true,   //prevent js to access cookie
-            secure: process.env.NODE_ENV === 'production', 
-            sameSite: process.env.NODE_ENV === 'production' ? 'none' :'strict', 
+            secure: false, 
+            sameSite: 'lax', 
             maxAge: 7 * 24 * 60 * 60 *1000 //cookie expiration
 
         })
@@ -59,8 +59,8 @@ export const login = async(req,res)=>{
 
         res.cookie('token', token, {
             httpOnly:true,  
-            secure: process.env.NODE_ENV === 'production', 
-            sameSite: process.env.NODE_ENV === 'production' ? 'none' :'strict', 
+            secure: false, 
+            sameSite: 'lax', 
             maxAge: 7 * 24 * 60 * 60 *1000 
 
         })
@@ -81,7 +81,7 @@ export const isAuth = async(req,res)=>{
 
         const user = await User.findById(userId).select("-password")
 
-        return res.status(400).json({success:true, user})
+        return res.status(200).json({success:true, user})
 
     } catch (error) {
         console.log(error.message)
@@ -95,8 +95,8 @@ export const logout = (req,res)=>{
     try {
         res.clearCookie('token',{
             httpOnly:true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite:process.env.NODE_ENV === 'production'? 'none' : 'strict',
+            secure: false,
+            sameSite:'lax',
         })
 
         return res.status(200).json({success:true, message:"Logged Out"})
