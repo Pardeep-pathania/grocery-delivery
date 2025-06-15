@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useAppContext } from '../context/AppContext'
-import { assets, dummyAddress } from '../assets/assets'
+import { assets } from '../assets/assets'
 import { toast } from 'react-toastify'
 
 const Cart = () => {
 
-    const {products, currency,cartItems,removeFromCart,getCartCount,updateCartItem,navigate,getCartAmount,axios, user} = useAppContext()
+    const {products, currency,cartItems,removeFromCart,getCartCount,updateCartItem,navigate,getCartAmount,axios, user, setCartItems} = useAppContext()
 
     const [cartArray, setCartArray] = useState([])
     const [addresses, setAddresses] = useState([])
@@ -41,7 +41,63 @@ const Cart = () => {
   }
 
   const placeOrder = async()=>{
+    try {
+        if(!selectedAddress){
+            return toast.error("Please select an address")
+        }
+            // place order COD
+            if(paymentOption=== "COD"){
+                const {data} = await axios.post('/api/order/cod', {
+                    userId: user._id,
+                    items: cartArray.map(item => ({product: item._id, quantity:item.quantity})),
+                    address: selectedAddress._id
+                })
+                if(data.success){
+                    toast.success(data.message)
+                    setCartItems({})
+                    navigate('/my-orders')
+                } else{
+                    toast.error(data.message)
+                }
+            } else{
+                //place order with razorpay
 
+                const {data} = await axios.post('/api/order/razorpay', {
+                    items: cartArray.map(item => ({product: item._id, quantity:item.quantity})),
+                    address: selectedAddress._id
+                })
+                if(data.success){
+                    const options = {
+          key: import.meta.env.VITE_RAZORPAY_KEY, // Your Razorpay key
+          amount: data.razorpayOrder.amount,
+          currency: data.razorpayOrder.currency,
+          name: "Pathania's GreenCart",
+          description: "Order Payment",
+          order_id: data.razorpayOrder.id,
+          handler: async function (response) {
+            // You should verify payment on backend here
+            // Example: await axios.post('/api/order/verify-razorpay', { ...response, orderId: data.orderId });
+            toast.success("Payment successful!");
+            setCartItems({});
+            navigate('/my-orders');
+          },
+          prefill: {
+            name: user.name,
+            email: user.email,
+          },
+          theme: { color: "#3399cc" },
+        };
+        const rzp = new window.Razorpay(options);
+        rzp.open();
+                } else{
+                    toast.error(data.message)
+                }
+            }
+        
+    } catch (error) {
+        console.log(error)
+        toast.error(error.message)
+    }
   }
 
   useEffect(()=>{
