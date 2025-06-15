@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useAppContext } from '../context/AppContext';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
 
@@ -61,6 +62,7 @@ const Login = () => {
                     Create an account? <span onClick={() => setState("register")} className="text-green-800 cursor-pointer">click here</span>
                 </p>
             )}
+            <Link to={'seller'} >Login as <span className="text-green-800 cursor-pointer">Seller</span> </Link>
             <button className="bg-green-800 hover:bg-green-700 transition-all text-white w-full py-2 rounded-md cursor-pointer">
                 {state === "register" ? "Create Account" : "Login"}
             </button>

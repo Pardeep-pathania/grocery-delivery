@@ -75,8 +75,7 @@ const Cart = () => {
           description: "Order Payment",
           order_id: data.razorpayOrder.id,
           handler: async function (response) {
-            // You should verify payment on backend here
-            // Example: await axios.post('/api/order/verify-razorpay', { ...response, orderId: data.orderId });
+           
             toast.success("Payment successful!");
             setCartItems({});
             navigate('/my-orders');

@@ -77,7 +77,8 @@ export const placeOrderRazor = async (req, res) => {
       address,
       paymentType: "Online",
       razorpayOrderId: razorpayOrder.id,
-      status: "pending",
+      status: "paid",
+      isPaid: true
     });
 
     // 3. Return Razorpay order info and your order ID
@@ -98,8 +99,7 @@ export const getUserOrders = async (req, res) => {
   try {
     const userId = req.user.id;
     const orders = await Order.find({
-      userId,
-      $or: [{ paymentType: "COD" }, { isPaid: true }],
+      userId
     })
       .populate("items.product address")
       .sort({ createdAt: -1 });
@@ -113,9 +113,7 @@ export const getUserOrders = async (req, res) => {
 
 export const getAllOrders = async (req, res) => {
   try {
-    const orders = await Order.find({
-      $or: [{ paymentType: "COD" }, { isPaid: true }],
-    }).populate("items.product address");
+    const orders = await Order.find().populate("items.product address");
     res.status(200).json({ success: true, orders });
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });
