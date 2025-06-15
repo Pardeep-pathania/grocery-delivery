@@ -99,7 +99,7 @@ const ProductDetails = () => {
                             <ProductCard key={index} product={product}/>
                         ))}
                     </div>
-                    <button className='mx-auto cursor-pointer px-12 my-16 py-2.5 border rounded text-green-800 hover:bg-green-700 transition '>See more</button>
+                    <Link to={'/products'} className='mx-auto cursor-pointer px-12 my-16 py-2.5 border rounded text-green-800 hover:bg-green-700 transition '>See more</Link>
                 </div>
 
         </div>

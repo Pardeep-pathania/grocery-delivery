@@ -140,13 +140,13 @@ const getCartAmount = () =>{
   },[])
 
 
-  //update Database Cart
+  //update Database Cart Items
   useEffect(()=>{
    const updateCart = async()=>{
      try {
       const { data } = await axios.post('/api/cart/update', {cartItems})
 
-      if(data.success){
+      if(!data.success){
         toast.error(data.message)
       }
     } catch (error) {
