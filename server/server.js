@@ -19,14 +19,11 @@ const port = process.env.PORT || 3000
 await connectDB()
 await connectCloudinary()
 
-//Allow multiple origins
-const allowedOrigins = ['http://localhost:5173',
-    'https://grocery-delivery-client.vercel.app'
-]
-
 //middleware configuration
 
-app.use(cors({origin: allowedOrigins, credentials: true}))
+app.use(cors({origin: ['http://localhost:5173',
+    'https://grocery-delivery-front.vercel.app/'
+], credentials: true}))
 app.use(express.json());
 app.use(cookieParser())
 
