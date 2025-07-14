@@ -21,7 +21,7 @@ await connectCloudinary()
 
 //Allow multiple origins
 const allowedOrigins = ['http://localhost:5173',
-    'https://greencart-grocerydelivery.onrender.com'
+    'https://grocery-delivery-client.vercel.app'
 ]
 
 //middleware configuration
